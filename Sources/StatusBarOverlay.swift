@@ -24,6 +24,9 @@ import Reachability
     public static let bundle = StatusBarOverlay.bundleUrl != nil ? Bundle(url: StatusBarOverlay.bundleUrl!) : nil // set to use your own bundle
     
     public static let networkChangedToReachableNotification = Notification.Name(rawValue: "networkChangedToReachable")
+    
+    public static let networkChangedToNonReachableNotification = Notification.Name(rawValue: "networkChangedToNonReachable")
+    
     public static var defaultBackgroundColor = UIColor.black {
         didSet {
             StatusBarOverlay.shared.statusBarOverlayViewController?.setStatusBarBackgroundColor(color: StatusBarOverlay.defaultBackgroundColor)
@@ -256,6 +259,8 @@ import Reachability
         
         if isReachable {
             NotificationCenter.default.post(name: StatusBarOverlay.networkChangedToReachableNotification, object: nil)
+        }else{
+            NotificationCenter.default.post(name: StatusBarOverlay.networkChangedToNonReachableNotification, object: nil)
         }
         
         if isReachable && StatusBarOverlay.customStatusBarText == nil {

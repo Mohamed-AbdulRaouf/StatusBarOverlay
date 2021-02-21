@@ -127,9 +127,9 @@ import Reachability
         self.statusBarOverlayViewController = StatusBarOverlayViewController(nibName: "StatusBarOverlayViewController", bundle: StatusBarOverlay.bundle)
         self.statusBarOverlayViewController?.view.frame = frame
         self.statusBarOverlayViewController?.setStatusBarFont(font: StatusBarOverlay.defaultFont)
-        if let noWifi = UIImage(named: "NoWifi", in: StatusBarOverlay.bundle, compatibleWith: nil) {
-            self.statusBarOverlayViewController?.setStatusBarIcon(image: noWifi)
-        }
+//        if let noWifi = UIImage(named: "NoWifi", in: StatusBarOverlay.bundle, compatibleWith: nil) {
+//            self.statusBarOverlayViewController?.setStatusBarIcon(image: noWifi)
+//        }
         
         self.windowLevel = UIWindow.Level.statusBar + 1
         self.rootViewController = self.statusBarOverlayViewController
@@ -151,12 +151,12 @@ import Reachability
         
         if #available(iOS 12.0, *) {
             if self.safeAreaInsets != UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0) {
-                StatusBarOverlay.hasNotch = true
+                StatusBarOverlay.hasNotch = false
             }
         }
         else if #available(iOS 11.0, *) {
             if self.safeAreaInsets != UIEdgeInsets.zero {
-                StatusBarOverlay.hasNotch = true
+                StatusBarOverlay.hasNotch = false
             }
         }
         
@@ -181,7 +181,7 @@ import Reachability
             DispatchQueue.main.async {
                 // update window frame
                 guard let strongSelf = self else { return }
-                var height: CGFloat = StatusBarOverlay.isReachable ? 0 : (StatusBarOverlay.hasNotch ? 44 :  20)
+                var height: CGFloat = StatusBarOverlay.isReachable ? 0 : (StatusBarOverlay.hasNotch ? 44 :  44)
                 height += StatusBarOverlay.hasMessage ? 44 : 0
                 strongSelf.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: height)
             }
@@ -281,10 +281,10 @@ import Reachability
         }
         else {
             StatusBarOverlay.shared.statusBarOverlayViewController?.setStatusBarTextColor(color: StatusBarOverlay.defaultTextColor)
-            StatusBarOverlay.shared.statusBarOverlayViewController?.setShowStatusBarIconHidden(isReachable)
+            StatusBarOverlay.shared.statusBarOverlayViewController?.setShowStatusBarIconHidden(false)
             self.updateStatusBarText(isReachable: isReachable)
             
-            let statusBarHeight: CGFloat = StatusBarOverlay.hasNotch ? 44 :  20
+            let statusBarHeight: CGFloat = StatusBarOverlay.hasNotch ? 44 :  44
             
             StatusBarOverlay.shared.statusBarOverlayViewController!.statusBarConstraintHeight.constant = statusBarHeight
             StatusBarOverlay.prefersNoConnectionBarHidden = false
